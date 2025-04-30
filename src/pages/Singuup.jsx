@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { FiUser, FiMail, FiLock, FiImage, FiUpload } from 'react-icons/fi';
 import Loder from '../components/Loder'; // Import the Loader component
-
+import API from '../api/api'
 const Singup = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -58,7 +58,7 @@ const Singup = () => {
         console.log(key, value);
       }
 
-      const response = await axios.post(
+      const response = await API.post(
         `${import.meta.env.VITE_API_BASE_URL}/user/register`,
         data,
         {
