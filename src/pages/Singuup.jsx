@@ -59,7 +59,7 @@ const Singup = () => {
       }
 
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_REGISTER_URL}`,
+        `${import.meta.env.VITE_API_BASE_URL}/user/register`,
         data,
         {
           headers: {
