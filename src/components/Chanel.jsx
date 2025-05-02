@@ -10,7 +10,7 @@ const ChannelCard = ({ channel }) => {
       className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg overflow-hidden flex flex-col sm:flex-row"
     >
       <Link
-        to={`/channel/${channel._id}`}
+        to={`/video/${channel._id}`}
         className="flex-shrink-0 w-full sm:w-60 flex items-center justify-center bg-gray-100 dark:bg-gray-700"
       >
         <img
