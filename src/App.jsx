@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import './App.css';
@@ -18,24 +18,37 @@ import ChannelPage from './components/Mychanel';
 import SearchResults from './pages/Saech';
 
 function App() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // starts open
+  const location = useLocation();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+
+  // Define routes where Sidebar and Navbar should be hidden
+  const hideLayoutRoutes = ['/login', '/register'];
+  const shouldHideLayout = hideLayoutRoutes.includes(location.pathname);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 text-white">
-      <Sidebar
-        collapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
+      {!shouldHideLayout && (
+        <Sidebar
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        />
+      )}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Navbar
-          onMenuClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          sidebarCollapsed={sidebarCollapsed}
-        />
+        {!shouldHideLayout && (
+          <Navbar
+            onMenuClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            sidebarCollapsed={sidebarCollapsed}
+          />
+        )}
 
         <main
           className={`flex-1 overflow-y-auto transition-all duration-300 ${
-            sidebarCollapsed ? 'ml-16 sm:ml-20' : 'ml-48 sm:ml-64'
+            !shouldHideLayout
+              ? sidebarCollapsed
+                ? 'ml-16 sm:ml-20'
+                : 'ml-48 sm:ml-64'
+              : ''
           }`}
         >
           <div className="p-6">
