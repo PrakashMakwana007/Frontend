@@ -22,8 +22,11 @@ function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   // Define routes where Sidebar and Navbar should be hidden
-  const hideLayoutRoutes = ['/login', '/register' ,'/'];
-  const shouldHideLayout = hideLayoutRoutes.includes(location.pathname);
+  
+const hideLayoutRoutes = ['/login', '/register'];
+const shouldHideLayout =
+  hideLayoutRoutes.includes(location.pathname) ||
+  location.pathname.startsWith('/video/');
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 text-white">
