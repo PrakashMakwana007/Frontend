@@ -28,7 +28,8 @@ const SubscribedChannelsPage = () => {
         console.log("Subscriptions Response:", res);
 
         // Directly assign the data from the response
-        const channels = res.data.data; // Access the array directly
+        const channels = res.data.data; 
+        console.log(res,"ressub")// Access the array directly
         setSubscriptions(channels);
       } catch (err) {
         console.error("Error fetching subscriptions:", err);
