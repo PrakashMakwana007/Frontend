@@ -4,18 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FiMenu, FiSearch, FiUser, FiLogOut, FiUpload } from 'react-icons/fi';
 import { clearCredentials } from '../store/authSlice';
 import { logout } from '../api/auth.api';
-import Logo from '../Photo/Screenshot 2025-04-29 094650.png'; // Path to your logo image
+import Logo from '../Photo/Screenshot 2025-04-29 094650.png';
 
 const Navbar = ({ onMenuClick, sidebarCollapsed, onSearchSubmit }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const { user, accessToken } = useSelector((state) => state.auth);
-  const isAuthenticated = !!accessToken; // Check if user is authenticated
+  const isAuthenticated = !!accessToken;
 
   useEffect(() => {
     if (isAuthenticated && location.pathname === '/login') {
-      navigate('/'); // Redirect to home page after login
+      navigate('/');
     }
   }, [isAuthenticated, navigate, location]);
 
@@ -42,37 +42,37 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onSearchSubmit }) => {
   };
 
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-sm z-30">
-      <div className="flex items-center justify-between px-4 py-3">
+    <header className="bg-white dark:bg-gray-800 shadow-sm z-30 w-full">
+      <div className="flex flex-wrap items-center justify-between px-4 py-3">
         {/* Left section */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           <button
             onClick={onMenuClick}
             className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
           >
             <FiMenu className="h-5 w-5" />
           </button>
+
           {sidebarCollapsed && (
             <div
               onClick={() => navigate('/')}
               className="flex items-center cursor-pointer"
             >
-              {/* Logo Image */}
               <img
-                src={Logo} // Using the imported logo image
+                src={Logo}
                 alt="Logo"
                 className="h-8 w-8 mr-2 transition-transform duration-300 transform hover:rotate-12 hover:scale-110 rounded-full"
               />
-              <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
+              <h1 className="text-xl font-semibold text-gray-800 dark:text-white hidden sm:block">
                 VideoTube
               </h1>
             </div>
           )}
         </div>
 
-        {/* Search bar */}
-        <div className="flex-1 max-w-xl mx-4">
-          <form onSubmit={handleSearch} className="relative">
+        {/* Search bar - responsive on mobile */}
+        <div className="w-full sm:w-auto flex-1 mx-0 sm:mx-4 my-2 sm:my-0">
+          <form onSubmit={handleSearch} className="relative w-full">
             <input
               type="text"
               name="search"
@@ -84,20 +84,21 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onSearchSubmit }) => {
         </div>
 
         {/* Right section */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           {isAuthenticated ? (
             <>
               <button
                 onClick={() => navigate('/upload')}
-                className={`hidden md:flex items-center px-3 py-2 rounded-lg ${
+                className={`hidden sm:flex items-center px-3 py-2 rounded-lg ${
                   location.pathname === '/upload'
                     ? 'bg-blue-700 text-white'
                     : 'bg-blue-600 hover:bg-blue-700 text-white'
                 } transition`}
               >
                 <FiUpload className="mr-2" />
-                Upload
+                <span className="hidden md:inline">Upload</span>
               </button>
+
               <div className="flex items-center space-x-2">
                 {user?.avatar ? (
                   <img
@@ -112,6 +113,7 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onSearchSubmit }) => {
                     </span>
                   </div>
                 )}
+
                 <button
                   onClick={handleLogout}
                   className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
@@ -137,4 +139,3 @@ const Navbar = ({ onMenuClick, sidebarCollapsed, onSearchSubmit }) => {
 };
 
 export default Navbar;
-// Compare this snippet from src/components/Navbar.jsx:
