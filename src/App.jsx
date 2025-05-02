@@ -22,7 +22,7 @@ function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   // Define routes where Sidebar and Navbar should be hidden
-  const hideLayoutRoutes = ['/login', '/register , /'];
+  const hideLayoutRoutes = ['/login', '/register' ,'/'];
   const shouldHideLayout = hideLayoutRoutes.includes(location.pathname);
 
   return (
