@@ -10,7 +10,7 @@ const CommentSection = ({ videoId, userId }) => {
   const fetchComments = async () => {
     try {
       const response = await API.get(`/comment/${videoId}/comments`, {
-        headers: { Authorization: `Bearer ${userId}` }
+        headers: { Authorization: `Bearer ${userId}` },
       });
       setComments(response.data.data);
     } catch (err) {
@@ -44,7 +44,7 @@ const CommentSection = ({ videoId, userId }) => {
   const handleDeleteComment = async (commentId) => {
     try {
       await API.delete(`/comment/comment/${commentId}`, {
-        headers: { Authorization: `Bearer ${userId}` }
+        headers: { Authorization: `Bearer ${userId}` },
       });
       fetchComments();
     } catch (err) {
@@ -54,17 +54,17 @@ const CommentSection = ({ videoId, userId }) => {
 
   return (
     <div className="mt-4">
-      <form onSubmit={handleCommentSubmit} className="flex space-x-2">
+      <form onSubmit={handleCommentSubmit} className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
         <input
           type="text"
           value={comment}
           onChange={handleCommentChange}
           placeholder="Add a comment..."
-          className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-white"
+          className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-white sm:w-3/4"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center sm:w-1/4 justify-center"
         >
           <FiSend />
           <span className="ml-2">Send</span>
@@ -84,15 +84,14 @@ const CommentSection = ({ videoId, userId }) => {
               <div className="text-gray-800 dark:text-gray-200">
                 <strong>{comment.owner?.username}:</strong> {comment.content}
               </div>
-             
-                <button
-                  onClick={() => handleDeleteComment(comment._id)}
-                  className="text-red-600 hover:text-red-800 p-2 rounded-full"
-                  title="Delete Comment"
-                >
-                  <FiTrash2 />
-                </button>
-              
+
+              <button
+                onClick={() => handleDeleteComment(comment._id)}
+                className="text-red-600 hover:text-red-800 p-2 rounded-full"
+                title="Delete Comment"
+              >
+                <FiTrash2 />
+              </button>
             </div>
           ))
         )}

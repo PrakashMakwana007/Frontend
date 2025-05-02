@@ -9,7 +9,7 @@ import axios from "axios";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [error, setError] = useState("");
@@ -23,14 +23,15 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoder(true);
     setError("");
-  
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/user/login`,
@@ -42,20 +43,16 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true,  // Can be removed if you're not using cookies for auth
+          withCredentials: true,
         }
       );
-  
-      console.log("login response:", response.data);
-  
+
       if (response.data.statusCode === 200) {
         const { accessToken, refreshToken, user } = response.data.data;
-  
-       
+
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-  
-        
+
         dispatch(
           setCredentials({
             user,
@@ -63,7 +60,7 @@ const Login = () => {
             refreshToken,
           })
         );
-  
+
         navigate("/");  // Redirect to home or dashboard
       } else {
         setError(response.data.message || "Login failed");
@@ -73,11 +70,11 @@ const Login = () => {
       if (message === "Password is not valid") {
         setError("Oops! That password doesn't match our records.");
       } else {
-        setError(message || "password  is not valid please chek youer  email  and password");
+        setError(message || "Password is not valid. Please check your email and password.");
       }
     } finally {
       setLoder(false);
-    }    
+    }
   };
 
   return (
@@ -170,15 +167,6 @@ const Login = () => {
                 Remember me
               </label>
             </div>
-
-            {/* <div className="text-sm">
-              <Link
-                to="/forgot-password"
-                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-              >
-                Forgot your password?
-              </Link>
-            </div> */}
           </div>
 
           <div>

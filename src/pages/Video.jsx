@@ -6,7 +6,6 @@ import Loder from '../components/Loder';
 
 const VideoPage = () => {
   const { videoId } = useParams(); // /video/:id
-  // console.log("videoid",videoId);
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null); // Add error state
@@ -42,8 +41,12 @@ const VideoPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6">
-      {loading ? <Loder /> : <VideoPlayer video={video} />}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 px-4 sm:px-6 lg:px-8">
+      {loading ? (
+        <Loder />
+      ) : (
+        <VideoPlayer video={video} />
+      )}
     </div>
   );
 };

@@ -55,7 +55,7 @@ const SubscribedChannelsPage = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold flex items-center gap-2 mb-6 text-gray-800 dark:text-white">
-        <FiUsers className="text-blue-500" />
+        <FiUsers className="text-blue-500 text-xl md:text-2xl" />
         Subscribed Channels
       </h2>
 
@@ -64,7 +64,7 @@ const SubscribedChannelsPage = () => {
           You haven't subscribed to any channels yet.
         </p>
       ) : (
-        <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {subscriptions.map((channel) => (
             // Render ChannelCard directly, no need to check for ownerId anymore
             <ChannelCard key={channel._id} channel={channel} />

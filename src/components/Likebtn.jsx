@@ -3,7 +3,7 @@ import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
 import API from "../api/api";
 
 const LikeButton = ({ videoId, userId, onCountChange }) => {
-  const [isLiked, setIsLiked] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,9 +13,9 @@ const LikeButton = ({ videoId, userId, onCountChange }) => {
     const fetchLikeStatus = async () => {
       try {
         const res = await API.get(`/like/status/v/${videoId}`, {
-          headers: { Authorization: `Bearer ${userId}` }
+          headers: { Authorization: `Bearer ${userId}` },
         });
-        
+
         setIsLiked(res.data.data?.isLiked || false);
         setLikeCount(res.data.data?.likeCount || 0);
       } catch (err) {
@@ -48,7 +48,6 @@ const LikeButton = ({ videoId, userId, onCountChange }) => {
       setLikeCount(newCount);
 
       if (onCountChange) onCountChange(newCount);
-
     } catch (err) {
       console.error("Toggle like error:", err);
       setError(err.response?.data?.message || "Failed to toggle like");
@@ -62,9 +61,10 @@ const LikeButton = ({ videoId, userId, onCountChange }) => {
       <button
         onClick={handleLike}
         disabled={isLoading}
-        className={`flex items-center gap-2 p-2 rounded-lg transition-all
-          ${isLiked ? "text-blue-600 bg-blue-50" : "text-gray-600 hover:bg-gray-100"}
-          ${isLoading ? "opacity-70 cursor-wait" : "cursor-pointer"}`}
+        className={`flex items-center gap-2 p-2 rounded-lg transition-all 
+          ${isLiked ? "text-blue-600 bg-blue-50" : "text-gray-600 hover:bg-gray-100"} 
+          ${isLoading ? "opacity-70 cursor-wait" : "cursor-pointer"} 
+          focus:outline-none focus:ring-2 focus:ring-blue-500`}
       >
         {isLiked ? (
           <FiThumbsUp className="text-xl" />
@@ -73,12 +73,12 @@ const LikeButton = ({ videoId, userId, onCountChange }) => {
         )}
         <span className="font-medium">{likeCount}</span>
       </button>
-      
+
       {error && (
         <div className="absolute top-full left-0 mt-1 px-2 py-1 bg-red-100 text-red-600 text-xs rounded">
           {error}
-          <button 
-            onClick={() => setError(null)} 
+          <button
+            onClick={() => setError(null)}
             className="ml-2 text-red-800 font-bold"
           >
             ×

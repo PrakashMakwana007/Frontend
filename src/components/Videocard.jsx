@@ -18,7 +18,7 @@ const VideoCard = ({ video }) => {
       className="group relative cursor-pointer bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out"
     >
       {/* Thumbnail / Preview */}
-      <div className={`relative w-full ${isVertical ? "h-[420px]" : "h-60"} overflow-hidden bg-black flex items-center justify-center`}>
+      <div className={`relative w-full ${isVertical ? "h-[320px]" : "h-48"} overflow-hidden bg-black flex items-center justify-center`}>
         {isHovered ? (
           <video
             src={video.videoUrl}
@@ -44,20 +44,20 @@ const VideoCard = ({ video }) => {
       </div>
 
       {/* Details Section */}
-      <div className="p-4 space-y-2">
+      <div className="p-3 space-y-1">
         {/* Title */}
-        <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-2">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2">
           {video.title}
         </h3>
 
         {/* Channel Name */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
           <FiUser />
           <span className="truncate">{video.ownerName}</span>
         </div>
 
         {/* Bottom Interaction Row */}
-        <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700 mt-3 text-sm">
+        <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-700 mt-2 text-xs">
           {/* Like Count */}
           <div className="flex items-center gap-1 text-gray-600 dark:text-gray-300">
             <span>{video.likesCount || 0} LIKE</span>

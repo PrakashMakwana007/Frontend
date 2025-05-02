@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import VideoCard from '../components/Videocard';
-import { useSearchParams } from 'react-router-dom'; 
+import { useSearchParams } from 'react-router-dom';
 import API from '../api/api';
 
 const Home = () => {
@@ -17,8 +17,6 @@ const Home = () => {
       setLoading(true);
 
       const token = localStorage.getItem('accessToken');
-      // console.log('Access Token:', token);
-
       if (!token) {
         setError('No access token found. Please log in.');
         return;
@@ -34,16 +32,17 @@ const Home = () => {
           search: searchQuery,
         },
       });
-      // console.log("video response", response.data);
 
-      const fetchedVideos = Array.isArray(response.data.data.videos) ? response.data.data.videos : [];
+      const fetchedVideos = Array.isArray(response.data.data.videos)
+        ? response.data.data.videos
+        : [];
       setVideos((prev) =>
         page === 1 ? fetchedVideos : [...prev, ...fetchedVideos]
       );
       setHasMore(fetchedVideos.length === 9);
     } catch (err) {
       console.error(err);
-      setError("Connect Internet  ot Login  Please "|| 'Failed to load videos');
+      setError('Failed to load videos. Please check your internet connection or log in.');
     } finally {
       setLoading(false);
     }
@@ -73,18 +72,21 @@ const Home = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Video Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {Array.isArray(videos) && videos.map((video) => (
           <VideoCard key={video._id} video={video} />
         ))}
       </div>
 
+      {/* Loading Spinner */}
       {loading && (
         <div className="flex justify-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       )}
 
+      {/* No Videos Message */}
       {!loading && videos.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-gray-400 text-lg">
@@ -93,6 +95,7 @@ const Home = () => {
         </div>
       )}
 
+      {/* Load More Button */}
       {!loading && hasMore && videos.length > 0 && (
         <div className="flex justify-center mt-8">
           <button

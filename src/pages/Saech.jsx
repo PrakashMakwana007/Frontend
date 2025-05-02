@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { FiLoader } from 'react-icons/fi';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -9,16 +10,19 @@ const SearchResults = () => {
   const searchTerm = query.get('q');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
   useEffect(() => {
     if (!searchTerm) {
       setResults([]);
       setLoading(false);
       return;
     }
-  
+
     const fetchResults = async () => {
       try {
         setLoading(true);
+        setError('');  // Reset error before making request
         const res = await axios.get(`/api/videos`, {
           params: {
             query: searchTerm,
@@ -29,14 +33,15 @@ const SearchResults = () => {
         setResults(res.data?.videos || []);
       } catch (err) {
         console.error('Search failed:', err);
+        setError('An error occurred while fetching search results.');
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchResults();
   }, [searchTerm]);
-  
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">
@@ -44,7 +49,12 @@ const SearchResults = () => {
       </h2>
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="flex justify-center items-center">
+          <FiLoader className="animate-spin text-blue-600" size={24} />
+          <span className="ml-2 text-gray-600 dark:text-gray-400">Loading...</span>
+        </div>
+      ) : error ? (
+        <p className="text-red-600 dark:text-red-400">{error}</p>
       ) : results.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {results.map((video) => (

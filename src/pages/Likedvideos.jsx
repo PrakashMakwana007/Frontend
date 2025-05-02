@@ -3,13 +3,12 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import Loder from "../components/Loder";
-import API from "../api/api"; // assuming you're using axios here
-import { useSelector } from "react-redux"; // only for token
-import { formatDuration } from "../components/Duration"; // Import the formatDuration function
+import API from "../api/api";
+import { useSelector } from "react-redux";
+import { formatDuration } from "../components/Duration";
 
 const LikedVideosPage = () => {
   const token = useSelector((state) => state.auth.accessToken);
-  // console.log("token ", token); 
   const [likedVideos, setLikedVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -25,11 +24,8 @@ const LikedVideosPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // console.log("response ", res);
 
-        // Map to extract just the `video` objects
         const videos = res.data.data.map((item) => item.video);
-        // console.log("videos ", videos);
         setLikedVideos(videos);
       } catch (err) {
         console.error("Error fetching liked videos:", err);
@@ -52,7 +48,7 @@ const LikedVideosPage = () => {
       </div>
     );
   }
-   console.log("likedVideos ", likedVideos);
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold flex items-center gap-2 mb-6 text-gray-800 dark:text-white">
@@ -81,6 +77,7 @@ const LikedVideosPage = () => {
                   className="w-full h-40 object-cover sm:rounded-l-xl"
                 />
               </Link>
+
               <div className="p-4 flex flex-col justify-between">
                 <div>
                   <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
@@ -94,13 +91,10 @@ const LikedVideosPage = () => {
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {video.views} views
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {/* Duration: {formatDuration(video.duration) || "00:00"} */}
-                  </p>
                 </div>
               </div>
             </motion.div>
-          ))} 
+          ))}
         </div>
       )}
     </div>

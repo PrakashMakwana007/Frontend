@@ -20,7 +20,7 @@ const ChannelCard = ({ channel }) => {
               : `${import.meta.env.VITE_BACKEND_URL}/${channel.avatar}`
           }
           alt={channel.username || channel.name}
-          className="w-full h-40 sm:h-60 object-contain p-2"
+          className="w-full h-40 sm:h-60 object-cover p-2"
         />
       </Link>
       <div className="p-4 flex flex-col justify-between">

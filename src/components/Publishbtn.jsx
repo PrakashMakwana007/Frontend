@@ -8,7 +8,7 @@ const PublishButton = ({ loading, disabled, onClick }) => {
         loading || disabled
           ? "bg-gray-600 cursor-not-allowed"
           : "bg-indigo-600 hover:bg-indigo-700"
-      } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+      } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-base sm:py-3 sm:px-6 md:py-4 md:px-8`}
     >
       {loading ? (
         <>

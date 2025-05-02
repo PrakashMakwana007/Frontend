@@ -11,7 +11,7 @@ const MyChannel = () => {
   const userId = user?._id;
   const userName = user?.username;
   const userAvatar = user?.avatar;
-  const userCoverImage = user?.coverImage; // 👉 get the cover image
+  const userCoverImage = user?.coverImage;
 
   const navigate = useNavigate();
 
@@ -20,7 +20,6 @@ const MyChannel = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch channel data
   useEffect(() => {
     const fetchChannelData = async () => {
       setLoading(true);
@@ -37,7 +36,7 @@ const MyChannel = () => {
         setData(res.data.data);
         setVideos(videoRes.data.data);
       } catch (err) {
-        setError("YOU HAVE NOT ANY VIDEO!! UPLOAD VIDEO");
+        setError("An error occurred while fetching your data. Please try again.");
         console.error("ERROR", err);
       } finally {
         setLoading(false);
@@ -49,7 +48,6 @@ const MyChannel = () => {
     }
   }, [token, userId]);
 
-  // Handle video delete
   const handleDeleteVideo = async (videoId) => {
     if (!window.confirm("Are you sure you want to delete this video?")) return;
     try {
@@ -74,20 +72,18 @@ const MyChannel = () => {
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `url(${userCoverImage || '/default-cover.jpg'})`, // 👉 dynamic cover image
+        backgroundImage: `url(${userCoverImage || '/default-cover.jpg'})`,
       }}
     >
-      {/* overlay for better readability */}
       <div className="bg-white/80 dark:bg-gray-900/70 backdrop-blur-md min-h-screen p-6">
-        
         {/* Channel Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
           <img
             src={userAvatar || "default-avatar.png"}
             alt="User Avatar"
-            className="w-20 h-20 rounded-full border-2 border-blue-500 shadow-lg"
+            className="w-24 h-24 sm:w-20 sm:h-20 rounded-full border-2 border-blue-500 shadow-lg"
           />
-          <div>
+          <div className="text-center sm:text-left">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
               {userName || "User Name"}
             </h2>
@@ -111,7 +107,15 @@ const MyChannel = () => {
             Your Videos
           </h3>
           {videos.length === 0 ? (
-            <div className="text-center text-gray-500">No videos uploaded yet.</div>
+            <div className="text-center text-gray-500">
+              No videos uploaded yet. <br />
+              <button
+                className="text-blue-500 font-bold"
+                onClick={() => navigate('/upload')}
+              >
+                Upload Video
+              </button>
+            </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {videos.map((video) => (
@@ -149,7 +153,6 @@ const MyChannel = () => {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

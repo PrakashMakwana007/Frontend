@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { FiUpload, FiX, FiVideo, FiImage } from "react-icons/fi";
-import toast from "react-hot-toast"; // Toast notifications
-import useSound from "use-sound"; // Sound effect
-import successSound from "../Photo/success-1-6297.mp3"; // Your success sound file
+import toast from "react-hot-toast";
+import useSound from "use-sound";
+import successSound from "../Photo/success-1-6297.mp3";
 import PublishButton from "../components/Publishbtn";
-import API from "../api/api"; // Your API instance
+import API from "../api/api";
+
 const Upload = () => {
   const navigate = useNavigate();
   const { accessToken } = useSelector((state) => state.auth);
@@ -20,10 +21,8 @@ const Upload = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Sound effect hook
   const [playSuccess] = useSound(successSound);
 
-  // Handle video file selection
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -36,7 +35,6 @@ const Upload = () => {
     }
   };
 
-  // Handle thumbnail image selection
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -49,19 +47,16 @@ const Upload = () => {
     }
   };
 
-  // Clear video selection
   const clearVideo = () => {
     setVideoFile(null);
     setVideoPreview("");
   };
 
-  // Clear thumbnail selection
   const clearThumbnail = () => {
     setThumbnail(null);
     setThumbnailPreview("");
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,7 +69,6 @@ const Upload = () => {
       setLoading(true);
       setError("");
 
-      // Create form data
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
@@ -84,10 +78,8 @@ const Upload = () => {
         formData.append("thumbnail", thumbnail);
       }
 
-      // Send request to API
       const response = await API.post(
-        `${import.meta.env.VITE_API_BASE_URL}/videos`, // Use your API base URL
-        // "https://backend-k3gt.onrender.com/api/v1/videos",
+        `${import.meta.env.VITE_API_BASE_URL}/videos`,
         formData,
         {
           headers: {
@@ -97,11 +89,9 @@ const Upload = () => {
         }
       );
 
-      // Play success sound and show success toast
       playSuccess();
       toast.success("Video uploaded successfully!");
 
-      // Redirect after successful upload
       navigate("/");
     } catch (error) {
       setError(error.response?.data?.message || "Failed to upload video");
@@ -122,11 +112,8 @@ const Upload = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Video Upload */}
         <div className="space-y-2">
-          <label className="block text-gray-300 font-medium">
-            Video File (Required)
-          </label>
+          <label className="block text-gray-300 font-medium">Video File (Required)</label>
           {!videoPreview ? (
             <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
               <input
@@ -141,12 +128,8 @@ const Upload = () => {
                 className="flex flex-col items-center justify-center cursor-pointer"
               >
                 <FiVideo className="h-12 w-12 text-gray-400 mb-2" />
-                <span className="text-gray-400">
-                  Click to select video file
-                </span>
-                <span className="text-gray-500 text-sm mt-1">
-                  MP4, WebM, etc.
-                </span>
+                <span className="text-gray-400">Click to select video file</span>
+                <span className="text-gray-500 text-sm mt-1">MP4, WebM, etc.</span>
               </label>
             </div>
           ) : (
@@ -168,11 +151,8 @@ const Upload = () => {
           )}
         </div>
 
-        {/* Thumbnail Upload */}
         <div className="space-y-2">
-          <label className="block text-gray-300 font-medium">
-            Thumbnail (Optional)
-          </label>
+          <label className="block text-gray-300 font-medium">Thumbnail (Optional)</label>
           {!thumbnailPreview ? (
             <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
               <input
@@ -187,12 +167,8 @@ const Upload = () => {
                 className="flex flex-col items-center justify-center cursor-pointer"
               >
                 <FiImage className="h-12 w-12 text-gray-400 mb-2" />
-                <span className="text-gray-400">
-                  Click to select thumbnail image(Give only  horigantl  image)
-                </span>
-                <span className="text-gray-500 text-sm mt-1">
-                  JPG, PNG, etc.
-                </span>
+                <span className="text-gray-400">Click to select thumbnail image (Horizontal only)</span>
+                <span className="text-gray-500 text-sm mt-1">JPG, PNG, etc.</span>
               </label>
             </div>
           ) : (
@@ -213,11 +189,8 @@ const Upload = () => {
           )}
         </div>
 
-        {/* Title Input */}
         <div>
-          <label htmlFor="title" className="block text-gray-300 font-medium">
-            Title
-          </label>
+          <label htmlFor="title" className="block text-gray-300 font-medium">Title</label>
           <input
             type="text"
             id="title"
@@ -229,14 +202,8 @@ const Upload = () => {
           />
         </div>
 
-        {/* Description Input */}
         <div>
-          <label
-            htmlFor="description"
-            className="block text-gray-300 font-medium"
-          >
-            Description
-          </label>
+          <label htmlFor="description" className="block text-gray-300 font-medium">Description</label>
           <textarea
             id="description"
             value={description}
@@ -247,7 +214,6 @@ const Upload = () => {
           ></textarea>
         </div>
 
-        {/* Submit Button */}
         <div>
           <button
             type="submit"

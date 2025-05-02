@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { FiUser, FiMail, FiLock, FiImage, FiUpload } from 'react-icons/fi';
 import Loder from '../components/Loder'; // Import the Loader component
-import API from '../api/api'
+import API from '../api/api';
+
 const Singup = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -12,7 +13,7 @@ const Singup = () => {
     fullname: '',
     password: '',
     avatar: null,
-    coverImage: null
+    coverImage: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,28 +35,19 @@ const Singup = () => {
     setError('');
 
     try {
-      // Validate required fields
       if (!formData.avatar) {
         throw new Error('Avatar is required');
       }
 
-      // Create FormData and verify each field
       const data = new FormData();
       data.append('username', formData.username);
-      data.append('email', formData.email);  // Make sure this isn't undefined
+      data.append('email', formData.email);
       data.append('fullname', formData.fullname);
       data.append('password', formData.password);
       data.append('avatar', formData.avatar);
-      
-      // Optional cover image
+
       if (formData.coverImage) {
         data.append('coverImage', formData.coverImage);
-      }
-
-      // Debug: Check what's being sent
-      console.log('FormData contents:');
-      for (let [key, value] of data.entries()) {
-        console.log(key, value);
       }
 
       const response = await API.post(
@@ -63,8 +55,8 @@ const Singup = () => {
         data,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       );
 

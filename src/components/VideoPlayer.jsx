@@ -63,8 +63,7 @@ const VideoPlayer = ({ video }) => {
       setIsMuted(newVolume === 0);
     }
   };
-    console.log("video ss", video.owner._id);
-    
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -86,12 +85,12 @@ const VideoPlayer = ({ video }) => {
         />
       </div>
 
-      <div className="flex items-center gap-4 mb-6 group">
+      <div className="flex items-center gap-4 mb-6 group flex-wrap">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={toggleMute}
-          className="flex items-center gap-2 bg-red-100 dark:bg-red-600/20 hover:bg-red-200 dark:hover:bg-red-500/40 px-4 py-2 rounded-full text-red-600 dark:text-red-400 font-medium transition"
+          className="flex items-center gap-2 bg-red-100 dark:bg-red-600/20 hover:bg-red-200 dark:hover:bg-red-500/40 px-4 py-2 rounded-full text-red-600 dark:text-red-400 font-medium transition text-xs sm:text-sm"
         >
           {isMuted ? <FiVolumeX /> : <FiVolume2 />}
           {isMuted ? "Unmute" : "Mute"}
@@ -104,12 +103,12 @@ const VideoPlayer = ({ video }) => {
           step="0.01"
           value={volume}
           onChange={handleVolumeChange}
-          className="w-40 accent-red-600"
+          className="w-32 sm:w-40 accent-red-600"
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
         />
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+        <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
           {Math.round(volume * 100)}%
         </span>
       </div>
@@ -118,7 +117,7 @@ const VideoPlayer = ({ video }) => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight"
+        className="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight"
       >
         {video.title}
       </motion.h1>
@@ -127,7 +126,7 @@ const VideoPlayer = ({ video }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 mb-4"
+        className="flex justify-between items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4"
       >
         <div className="flex items-center gap-2">
           <FiUser className="text-red-500" />

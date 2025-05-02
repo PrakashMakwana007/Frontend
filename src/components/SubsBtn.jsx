@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiUserPlus, FiUserCheck, FiLoader, FiUserX } from "react-icons/fi";
 import API from "../api/api";
@@ -11,6 +11,7 @@ const SubscribeButton = ({ channelId }) => {
 
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); // Track errors
 
   const isOwnChannel = channelId === userId;
 
@@ -19,17 +20,15 @@ const SubscribeButton = ({ channelId }) => {
     const fetchSubscriptionStatus = async () => {
       if (!channelId || !userId || !token || isOwnChannel) return;
 
-      console.log("Fetching subscription status for channelId:", channelId, "userId:", userId);
-
       try {
         const res = await API.get(`/subscriptions/c/${channelId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("Subscription status response:", res);
         const { subscriptionCount } = res.data.data;
         setIsSubscribed(subscriptionCount > 0);
       } catch (err) {
         console.error("Error fetching subscription status:", err);
+        setError("Failed to fetch subscription status");
         setIsSubscribed(false);
       }
     };
@@ -38,21 +37,23 @@ const SubscribeButton = ({ channelId }) => {
   }, [channelId, userId, token, isOwnChannel]);
 
   // Toggle subscription status
-  const toggleSubscription = async () => {
+  const toggleSubscription = useCallback(async () => {
+    if (loading || isOwnChannel) return;
+
     setLoading(true);
     try {
       const res = await API.post(`/subscriptions/c/${channelId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       const { subscribe: newState } = res.data.data;
       setIsSubscribed(newState);
     } catch (err) {
       console.error("Failed to toggle subscription:", err);
+      setError("Failed to toggle subscription. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [channelId, token, loading, isOwnChannel]);
 
   return (
     <motion.button
@@ -116,6 +117,13 @@ const SubscribeButton = ({ channelId }) => {
           </motion.span>
         )}
       </AnimatePresence>
+
+      {/* Error Handling */}
+      {error && (
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-red-500 text-xs mt-2">
+          {error}
+        </div>
+      )}
     </motion.button>
   );
 };
